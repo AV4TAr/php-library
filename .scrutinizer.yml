@@ -1,0 +1,27 @@
+build:
+    environment:
+        php:
+            version: 5.6
+    tests:
+        override:
+            -
+                command: 'phpunit --coverage-clover=coverage.xml'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'php-clover'
+
+before_commands:
+    - "composer install --no-dev --prefer-source"
+
+tools:
+    external_code_coverage:
+        timeout: 1200
+    php_code_coverage:
+        enabled: true
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR2
+        filter:
+            paths: ["src/*", "tests/*"]
+    sensiolabs_security_checker: true
