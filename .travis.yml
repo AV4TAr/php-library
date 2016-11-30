@@ -10,5 +10,10 @@ after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 
-#script:
-#  - ./vendor/bin/phpunit
+install:
+  - travis_retry composer install --no-interaction --ignore-platform-reqs --prefer-source --no-scripts
+  - composer dump-autoload -o
+  
+script:
+  - composer test
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs --runtime-set ignore_warnings_on_exit true; fi
