@@ -1,15 +1,23 @@
 {
-  "name" : "av4tar/my-lib",
-  "description": "This amazing library",
-  "version" : "0.1.0",
-  "license": "GPL",
+  "name": "wework/redt-datahub-client",
+  "description": "Data Hub Utilities",
+  "version": "0.1.0",
+  "license": "Proprietary",
   "authors": [
-     {
-        "name": "Diego Sapriza",
-        "email": "av4tar@gmail.com"
-     }
+    {
+      "name": "Federico Silva",
+      "email": "federico.silva@wework.com"
+    }
   ],
-  "require" : {
+  "require": {
+    "php": ">=7.1",
+    "wework/error": "^1.1",
+    "wework/we-http-client": "^2",
+    "php-amqplib/php-amqplib": "^2.6",
+    "psr/log": "1.0.x-dev",
+    "wework/platform-common": "^1.5",
+    "elasticsearch/elasticsearch": "~5.0",
+    "monolog/monolog": "~1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "5.*",
@@ -17,20 +25,25 @@
     "consolidation/robo": "^1.0",
     "henrikbjorn/lurker": "^1.2"
   },
-
   "minimum-stability": "dev",
   "autoload": {
-     "psr-4": {
-	    "AV4TAr\\MyLib\\": "src/MyLib/"
-     }
-   },
+    "psr-4": {
+      "We\\DataHub\\": "src/DataHub/"
+    }
+  },
   "scripts": {
-      "check": [
-          "@cs",
-          "@test"
-      ],
-      "cs": "./vendor/bin/phpcs",
-      "cs-fix": "./vendor/bin/phpcbf",
-      "test": "./vendor/bin/phpunit"
-  }
+    "check": [
+      "@cs",
+      "@test"
+    ],
+    "cs": "./vendor/bin/phpcs",
+    "cs-fix": "./vendor/bin/phpcbf",
+    "test": "./vendor/bin/phpunit"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.weworkers-ps.io"
+    }
+  ]
 }
