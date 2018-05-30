@@ -12,7 +12,7 @@ namespace We\DataHub;
  * Class DataHubConfigDefaults holds default
  * @package We\DataHub
  */
-class DataHubConfigDefaults
+class ConfigDefaults
 {
 
 

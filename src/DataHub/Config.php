@@ -8,25 +8,38 @@
 
 namespace We\DataHub;
 
-class DataHubConfig
+/**
+ * Holds configuration for the `Publisher`
+ *
+ * Also defines a static helper to create an instance from configuration variables.
+ *
+ * @package We\DataHub
+ */
+class Config
 {
 
-    public static function resolveEnvironmentConfig(): DataHubConfig {
+    /**
+     * Creates an instance of `Config` with values gathered from the standard DataHub environment variables
+     *  with fallback to `ConfigDefaults`.
+     *
+     * @return Config resolved configuration
+     */
+    public static function resolveConfigFromEnvironment(): Config {
 
         $esHostsEnv = getenv("DH_ES_HOSTS");
-        $esHosts    = empty($esHostsEnv) ? DataHubConfigDefaults::DH_ES_HOSTS : mb_split($esHostsEnv, ",");
+        $esHosts    = empty($esHostsEnv) ? ConfigDefaults::DH_ES_HOSTS : mb_split($esHostsEnv, ",");
 
-        $host       = env("DH_RMQ_HOST",        DataHubConfigDefaults::DH_RMQ_HOST);
-        $port       = env("DH_RMQ_PORT",        DataHubConfigDefaults::DH_RMQ_PORT);
+        $host       = env("DH_RMQ_HOST",        ConfigDefaults::DH_RMQ_HOST);
+        $port       = env("DH_RMQ_PORT",        ConfigDefaults::DH_RMQ_PORT);
         $vhost      = getenv("DH_RMQ_VHOST");
-        $user       = env("DH_RMQ_USER",        DataHubConfigDefaults::DH_RMQ_USER);
-        $pass       = env("DH_RMQ_PASSWORD",    DataHubConfigDefaults::DH_RMQ_PASSWORD);
-        $queue      = env("DH_RMQ_QUEUE",       DataHubConfigDefaults::DH_RMQ_QUEUE);
-        $exchange   = env("DH_RMQ_EXCHANGE",    DataHubConfigDefaults::DH_RMQ_EXCHANGE);
-        $routingKey = env("DH_RMQ_ROUTINGKEY",  DataHubConfigDefaults::DH_RMQ_ROUTINGKEY);
+        $user       = env("DH_RMQ_USER",        ConfigDefaults::DH_RMQ_USER);
+        $pass       = env("DH_RMQ_PASSWORD",    ConfigDefaults::DH_RMQ_PASSWORD);
+        $queue      = env("DH_RMQ_QUEUE",       ConfigDefaults::DH_RMQ_QUEUE);
+        $exchange   = env("DH_RMQ_EXCHANGE",    ConfigDefaults::DH_RMQ_EXCHANGE);
+        $routingKey = env("DH_RMQ_ROUTINGKEY",  ConfigDefaults::DH_RMQ_ROUTINGKEY);
         $prefix     = getenv("DH_NS_PREFIX");
 
-        return new DataHubConfig(
+        return new Config(
             $esHosts,
             $host,
             $port,
@@ -41,6 +54,15 @@ class DataHubConfig
 
     }
 
+    /** Static helper to prepend prefixes in a standard way.
+     *
+     * If no prefix is passed, the input value is returned as is.
+     *
+     * @param string $prefix
+     * @param string $value
+     * @return string
+     *
+     */
     public static function prefixValue(string $prefix, string $value) {
         if( ! empty($prefix) ) {
             return $prefix . "_" . $value;
@@ -68,6 +90,20 @@ class DataHubConfig
 
     private $prefix;
 
+    /**
+     * Config constructor, takes care of prefixing the appropriate members (queue, exchange, routing key).
+     *
+     * @param array $esHosts
+     * @param string $host
+     * @param int $port
+     * @param string $password
+     * @param string $user
+     * @param string $vhost
+     * @param string $queueName
+     * @param string $exchangeName
+     * @param string $routingKey
+     * @param string $prefix
+     */
     public function __construct(
         array   $esHosts,
         string  $host,
@@ -177,7 +213,7 @@ class DataHubConfig
      * @return string the prefixed value if there was a prefix, the original value otherwise.
      */
     private function prefix(string $value) {
-        return DataHubConfig::prefixValue($this->prefix, $value);
+        return Config::prefixValue($this->prefix, $value);
     }
 
 }
