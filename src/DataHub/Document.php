@@ -8,10 +8,11 @@
 
 namespace We\DataHub;
 
+use Exception;
 use JsonSerializable;
 
 /**
- * Class Document is a container for the data `atoms` that will be sent to
+ * Container for the data that will be sent for indexing.
  *
  * @package We\DataHub
  *
@@ -35,19 +36,41 @@ class Document implements JsonSerializable
     private $documentType;
 
     /**
-     * @var string[]
+     * @var Fields
      */
     private $fields;
 
-    public function __construct(string $id, string $namespace, string $documentType, array $fields)
+    /**
+     * Document constructor
+     *
+     * @param string $id will identify the document in the storage engine
+     * @param string $namespace namespace the document will live in
+     * @param string $documentType structural type of the document as defined in the schema
+     * @param Fields $fields the key, value pairs representing field names and values
+     * @throws Exception
+     *
+     */
+    public function __construct(string $id, string $namespace, string $documentType, Fields $fields)
     {
-        $this->documentId = $id;
-        $this->namespace = $namespace;
+
+        if (!ctype_lower($namespace)) {
+            throw new Exception("Namespace: Uppercase characters are not allowed.");
+        }
+
+        if (!ctype_lower($documentType)) {
+            throw new Exception("Document Type: Uppercase characters are not allowed.");
+        }
+
+        $this->documentId   = $id;
+        $this->namespace    = $namespace;
         $this->documentType = $documentType;
-        $this->fields = $fields;
+        $this->fields       = $fields;
+
     }
 
     /**
+     * Will uniquely identify the document in the storage engine
+     *
      * @return string
      */
     public function getDocumentId(): string
@@ -56,6 +79,8 @@ class Document implements JsonSerializable
     }
 
     /**
+     * namespace the document will live in
+     *
      * @return string
      */
     public function getNamespace(): string
@@ -64,6 +89,8 @@ class Document implements JsonSerializable
     }
 
     /**
+     * structural type of the document as defined in the schema
+     *
      * @return string
      */
     public function getDocumentType(): string
@@ -72,13 +99,21 @@ class Document implements JsonSerializable
     }
 
     /**
-     * @return string[]
+     * The key, value pairs representing field names and values
+     *
+     * @return Fields
      */
-    public function getFields(): array
+    public function getFields(): Fields
     {
         return $this->fields;
     }
 
+    /**
+     * Json Serialization support.
+     *
+     * @return array|mixed list of this object's fields and values.
+     *
+     */
     public function jsonSerialize()
     {
         return get_object_vars($this);
