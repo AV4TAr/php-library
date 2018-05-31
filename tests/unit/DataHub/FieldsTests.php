@@ -6,12 +6,16 @@ use We\DataHub\Fields;
 
 final class FieldsTest extends TestCase {
 
+
+    /**
+     *  Verifies it is not possible to pass non-`stringy` values
+     */
     public function testWrongTypesAreNotAllowed(): void {
 
         $fields = new Fields();
         $errRaised = false;
 
-        // We use a random type that is not coerced to string by the language.
+        // We use a random type that is not coerced to string by the language like an int would.
         try {
             $fields->append(1, new DateTime());
         } catch (TypeError $e) {
@@ -24,7 +28,7 @@ final class FieldsTest extends TestCase {
 
     }
 
-    // 2. Check we can serialize fields as expected.
+    // Check we can serialize fields as expected.
     public function testSerializedToJson(): void{
 
         $fields = new Fields();
@@ -32,7 +36,9 @@ final class FieldsTest extends TestCase {
         $expected = '{"name":"fede","loco":"true"}';
 
         try {
-            $fields->append("name", "fede")->append("loco", "true");
+            $fields
+                ->append("name", "fede")
+                ->append("loco", "true");
         } catch (Exception $e) {
             echo $e->getMessage();
         }

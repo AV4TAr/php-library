@@ -3,3 +3,5 @@ tests/coverage.xml
 .buildpath
 vendor/
 .project
+/serializeFields.php
+/send.php

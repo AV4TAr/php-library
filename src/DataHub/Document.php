@@ -10,6 +10,8 @@ namespace We\DataHub;
 
 use Exception;
 use JsonSerializable;
+use We\DataHub\Exceptions\InvalidDocumentType;
+use We\DataHub\Exceptions\InvalidNamespace;
 
 /**
  * Container for the data that will be sent for indexing.
@@ -54,11 +56,11 @@ class Document implements JsonSerializable
     {
 
         if (!ctype_lower($namespace)) {
-            throw new Exception("Namespace: Uppercase characters are not allowed.");
+            throw new InvalidNamespace("Namespace: Uppercase characters are not allowed.");
         }
 
         if (!ctype_lower($documentType)) {
-            throw new Exception("Document Type: Uppercase characters are not allowed.");
+            throw new InvalidDocumentType("Document Type: Uppercase characters are not allowed.");
         }
 
         $this->documentId   = $id;
@@ -69,7 +71,7 @@ class Document implements JsonSerializable
     }
 
     /**
-     * Will uniquely identify the document in the storage engine
+     * Uiquely identifies the document in the storage engine
      *
      * @return string
      */
@@ -79,7 +81,7 @@ class Document implements JsonSerializable
     }
 
     /**
-     * namespace the document will live in
+     * Namespace the document will live in
      *
      * @return string
      */
@@ -89,7 +91,7 @@ class Document implements JsonSerializable
     }
 
     /**
-     * structural type of the document as defined in the schema
+     * Structural type of the document as defined in the schema
      *
      * @return string
      */
@@ -99,7 +101,7 @@ class Document implements JsonSerializable
     }
 
     /**
-     * The key, value pairs representing field names and values
+     * The (key, value) pairs representing field names and values
      *
      * @return Fields
      */
@@ -109,7 +111,7 @@ class Document implements JsonSerializable
     }
 
     /**
-     * Json Serialization support.
+     * Json Serialization support
      *
      * @return array|mixed list of this object's fields and values.
      *
