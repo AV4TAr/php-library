@@ -10,8 +10,11 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="My Library">
-            <directory suffix=".php">./tests/</directory>
+        <testsuite name="datahub-php-test-unit">
+            <directory suffix=".php">./tests/unit</directory>
+        </testsuite>
+        <testsuite name="datahub-php-test-integration">
+            <directory suffix=".php">./tests/integration</directory>
         </testsuite>
     </testsuites>
     <filter>
