@@ -28,7 +28,9 @@ final class FieldsTest extends TestCase {
 
     }
 
-    // Check we can serialize fields as expected.
+    /**
+     * Verifies fields serialization yields a json string with the expected format.
+     */
     public function testSerializedToJson(): void{
 
         $fields = new Fields();

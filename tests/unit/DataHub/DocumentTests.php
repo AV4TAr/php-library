@@ -26,7 +26,7 @@ final class DocumentTests extends TestCase {
     // 2. Check we can't pass lowercase document types
     public function testLowercaseDocumentTypeNotAllowed(): void {
 
-        $this->expectException('Exception');
+        $this->expectException('\We\DataHub\Exceptions\InvalidDocumentType');
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $doc = new Document(
